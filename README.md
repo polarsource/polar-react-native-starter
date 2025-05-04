@@ -1,50 +1,63 @@
-# Welcome to your Expo app 👋
+# Polar React Native Starter
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+### Setup a simple backend
 
-## Get started
+```typescript
+const express = require("express");
+const app = express();
+const { Polar } = require("@polar-sh/sdk");
 
-1. Install dependencies
+app.post("/checkout", async (req, res) => {
+  // Fetch the Stripe customer ID for the customer associated with this request.
+  // This assumes your app has an existing user database, which we'll call `myUserDB`.
+  const user = myUserDB.getUserFromToken(req.query.token);
 
-   ```bash
-   npm install
-   ```
+  const session = await polar.checkouts.create({
+    products: req.query.products,
+    customerExternalId: user.id,
+    successUrl: "https://example.com/checkout_redirect/success",
+  });
 
-2. Start the app
+  res.json({ url: session.url });
+});
 
-   ```bash
-   npx expo start
-   ```
+app.post("/login", async (req, res) => {
+  // This assumes your app has an existing user database, which we'll call `myUserDB`.
+  const token = myUserDB.login(req.body.login_details);
+  res.json({ token: token });
+});
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+app.listen(4242, () => console.log(`Listening on port ${4242}!`));
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Register App Links
 
-## Learn more
+#### Apple iOS
 
-To learn more about developing your project with Expo, look at the following resources:
+Add a file to your domain at .well-known/apple-app-site-association to define the URLs your app handles. Prepend your App ID with your Team ID, which you can find on the Membership page of the Apple Developer Portal.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```json
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": [
+          "A28BC3DEF9.com.example.MyApp1",
+          "A28BC3DEF9.com.example.MyApp1-Debug"
+        ],
+        "components": [
+          {
+            "/": "/checkout_redirect*",
+            "comment": "Matches any URL whose path starts with /checkout_redirect"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
-## Join the community
+#### Android
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+You can learn more about adding App Links to your Expo Project [here](https://docs.expo.dev/linking/android-app-links/).

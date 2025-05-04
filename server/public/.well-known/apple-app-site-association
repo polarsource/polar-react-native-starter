@@ -1,0 +1,19 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": [
+          "A28BC3DEF9.com.example.MyApp1",
+          "A28BC3DEF9.com.example.MyApp1-Debug"
+        ],
+        "components": [
+          {
+            "/": "/checkout_redirect*",
+            "comment": "Matches any URL whose path starts with /checkout_redirect"
+          }
+        ]
+      }
+    ]
+  }
+}
