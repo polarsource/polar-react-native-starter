@@ -59,6 +59,9 @@ app.post("/prompt", hasSufficientCredits, async (c) => {
 
 app.get("/checkout_redirect", (c) => {
   // Redirect to the app
+
+  // Use the .well-known/apple-app-site-association file to redirect to your app instead
+  // This is just a small hack for the sake of the demo
   return c.redirect("exp://172.22.79.116:8081?checkout_redirect");
 });
 
@@ -66,6 +69,15 @@ serve({
   port: 8787,
   fetch: app.fetch,
 });
+```
+
+#### Environment Variables
+
+```
+POLAR_ACCESS_TOKEN=...
+POLAR_SUCCESS_URL=https://your-domain.com/checkout_redirect
+POLAR_USAGE_METER_ID=...
+OPENAI_API_KEY=...
 ```
 
 ### Add a credits check
@@ -294,4 +306,11 @@ export default function HomeScreen() {
     </KeyboardAvoidingView>
   );
 }
+```
+
+### Environment Variables
+
+```
+EXPO_PUBLIC_POLAR_SERVER_ENVIRONMENT=sandbox
+EXPO_PUBLIC_API_BASE_URL=https://your-domain.com
 ```
