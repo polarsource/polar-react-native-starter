@@ -35,9 +35,6 @@ export default function HomeScreen() {
           },
         ]);
       },
-      headers: {
-        "X-Polar-Customer-Id": "09b8b19b-ff4a-4b3a-b12d-78ab168bf7bb",
-      },
     });
 
   useEffect(() => {
@@ -48,7 +45,7 @@ export default function HomeScreen() {
           id: Math.random().toString(),
           role: "assistant",
           content:
-            "Thanks for your purchase! 10,000 credits have been added to your account.",
+            "Thanks for your purchase! 10,000 credits has been added to your account.",
         },
       ]);
     }
@@ -69,7 +66,7 @@ export default function HomeScreen() {
         <ThemedText
           style={styles.link}
           onPress={() => {
-            const polarCustomerId = "09b8b19b-ff4a-4b3a-b12d-78ab168bf7bb";
+            const customerId = "09b8b19b-ff4a-4b3a-b12d-78ab168bf7bb";
             const polarCreditsProductId =
               "6870a5f6-1ff8-4907-8fe4-52c5c492f65b";
 
@@ -78,8 +75,7 @@ export default function HomeScreen() {
             );
 
             url.searchParams.set("products", polarCreditsProductId);
-            url.searchParams.set("customerId", polarCustomerId);
-
+            url.searchParams.set("customerId", customerId);
             Linking.openURL(url.toString());
           }}
         >
@@ -143,7 +139,13 @@ export default function HomeScreen() {
               onPress={handleSubmit}
               activeOpacity={0.8}
             >
-              <ThemedText style={styles.buttonText}>↑</ThemedText>
+              <ThemedText
+                style={styles.buttonText}
+                lightColor="#fff"
+                darkColor="#fff"
+              >
+                ↑
+              </ThemedText>
             </TouchableOpacity>
           </ThemedView>
         </ThemedView>

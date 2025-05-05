@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { Hono } from "hono";
 import { Checkout } from "@polar-sh/hono";
 import { streamText } from "ai";
@@ -5,11 +8,8 @@ import { Ingestion } from "@polar-sh/ingestion";
 import { LLMStrategy } from "@polar-sh/ingestion/strategies/LLM";
 import { openai } from "@ai-sdk/openai";
 import { serve } from "@hono/node-server";
-import dotenv from "dotenv";
 import { hasSufficientCredits } from "./middlewares.js";
 import { polarConfig } from "./polar.js";
-
-dotenv.config();
 
 const app = new Hono();
 
@@ -30,7 +30,9 @@ const llmIngestion = Ingestion(polarConfig)
   .ingest("openai-usage");
 
 app.post("/prompt", hasSufficientCredits, async (c) => {
-  const customerId = c.req.header("x-polar-customer-id") ?? "";
+  // You should obviously get this from an auth middleware or similar
+  // but for this example we'll just use a fixed customer id
+  const customerId = "09b8b19b-ff4a-4b3a-b12d-78ab168bf7bb";
 
   const { messages } = await c.req.json();
 
@@ -48,6 +50,11 @@ app.post("/prompt", hasSufficientCredits, async (c) => {
       "Content-Encoding": "none",
     },
   });
+});
+
+app.get("/checkout_redirect", (c) => {
+  // Redirect to the app
+  return c.redirect("exp://172.22.79.116:8081?checkout_redirect");
 });
 
 serve({

@@ -8,7 +8,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
-
+import { SafeAreaView, Text, View } from "react-native";
 import "@/utils/polyfills";
 
 export default function RootLayout() {
