@@ -54,6 +54,9 @@ app.post("/prompt", hasSufficientCredits, async (c) => {
 
 app.get("/checkout_redirect", (c) => {
   // Redirect to the app
+
+  // Use the .well-known/apple-app-site-association file to redirect to your app instead
+  // This is just a small hack for the sake of the demo
   return c.redirect("exp://172.22.79.116:8081?checkout_redirect");
 });
 

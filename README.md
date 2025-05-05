@@ -116,12 +116,12 @@ Add a file to your domain at .well-known/apple-app-site-association to define th
     "details": [
       {
         "appIDs": [
-          "A28BC3DEF9.com.example.MyApp1",
-          "A28BC3DEF9.com.example.MyApp1-Debug"
+          "XXXXXXXXXX.com.example.MyApp1",
+          "XXXXXXXXXX.com.example.MyApp1-Debug"
         ],
         "components": [
           {
-            "/": "/checkout_redirect*",
+            "/checkout_redirect": "/checkout_redirect*",
             "comment": "Matches any URL whose path starts with /checkout_redirect"
           }
         ]
