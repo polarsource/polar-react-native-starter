@@ -1,5 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 import { Hono } from "hono";
 import { Checkout } from "@polar-sh/hono";
